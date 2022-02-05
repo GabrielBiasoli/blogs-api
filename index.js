@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { joiError, domainError, serverError } = require('./middlewares');
 const User = require('./controllers/userController');
-const getToken = require('./controllers/generateToken');
+const getToken = require('./controllers/registeredToken');
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,6 +16,7 @@ app.get('/', (request, response) => {
 });
 
 app.post('/user', User.create, getToken);
+app.post('/login', User.login, getToken);
 
 // Error middlewares
 app.use(joiError);
