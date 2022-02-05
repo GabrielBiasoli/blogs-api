@@ -1,4 +1,4 @@
-const joi = require('joi');
+// const joi = require('joi');
 const rescue = require('express-rescue');
 const userService = require('../services/userService');
 const validateUser = require('./utils/validateUser');
