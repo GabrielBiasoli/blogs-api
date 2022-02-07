@@ -1,10 +1,11 @@
 // const joi = require('joi');
 const rescue = require('express-rescue');
 const userService = require('../services/userService');
-const validateUser = require('./utils/validateUser');
+const validateUser = require('./utils/validate');
+const userScheema = require('./scheemas/userScheema');
 
 const create = rescue(async (req, _res, next) => {
-  validateUser(req.body);
+  validateUser(userScheema, req.body);
   const { email } = req.body;
   const { id } = await userService.createUser(req.body);
   req.user = { email, id };
@@ -12,16 +13,23 @@ const create = rescue(async (req, _res, next) => {
   return next();
 });
 
-const login = rescue(async (req, res, next) => {
-  validateUser(req.body);
+const login = rescue(async (req, _res, next) => {
+  validateUser(userScheema, req.body);
   const { email, password } = req.body;
   const { id } = await userService.login(email, password);
   req.user = { email, id }; 
   req.statusCode = 200;
-  next();
+  return next();
+});
+
+const getAll = rescue(async (_req, res, _next) => {
+  const users = await userService.getAll();
+
+  res.status(200).json(users);
 });
 
 module.exports = {
   create,
   login,
+  getAll,
 };
