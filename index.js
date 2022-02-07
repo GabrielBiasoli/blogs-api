@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { joiError, domainError, serverError } = require('./middlewares');
 const User = require('./controllers/userController');
+const Category = require('./controllers/categoryController');
 const getToken = require('./controllers/signToken');
 const validateToken = require('./controllers/auth/validateToken');
 
@@ -20,6 +21,7 @@ app.post('/user', User.create, getToken);
 app.post('/login', User.login, getToken);
 app.get('/user', validateToken, User.getAll);
 app.get('/user/:id', validateToken, User.getById);
+app.post('/categories', validateToken, Category.create);
 
 // Error middlewares
 app.use(joiError);
