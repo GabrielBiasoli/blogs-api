@@ -22,6 +22,7 @@ app.post('/login', User.login, getToken);
 app.get('/user', validateToken, User.getAll);
 app.get('/user/:id', validateToken, User.getById);
 app.post('/categories', validateToken, Category.create);
+app.get('/categories', validateToken, Category.getAll);
 
 // Error middlewares
 app.use(joiError);
