@@ -8,13 +8,11 @@ const create = async ({ title, content, userId }) => {
     published: new Date(),
     updated: new Date(),
   };
-  console.log(blogPost);
   await BlogPost.create(blogPost);
 };
 
 const findLastOne = async () => {
   const lastOne = await BlogPost.findOne({ order: [['id', 'DESC']] });
-  console.log(lastOne);
   return lastOne.dataValues;
 };
 

@@ -10,7 +10,6 @@ const create = rescue(async (req, _res, next) => {
   await blogPostService.create({ ...req.body, userId: id });
   
   const newPost = await blogPostService.findLastOne();
-  console.log(newPost);
   req.newPost = newPost;
   next();
 });

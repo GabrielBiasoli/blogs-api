@@ -10,6 +10,7 @@ const create = async ({ categoryIds, postId }) => {
     return [...acc, categoryPromise];
   }, []);
   const categories = await Promise.all(categoriesPromises);
+  
   const allCategoriesExist = categories.every((cat) => cat);
   if (!allCategoriesExist) throw CATEGORY_NOT_FOUND;
 
@@ -17,6 +18,7 @@ const create = async ({ categoryIds, postId }) => {
     const promise = PostsCategory.create({ categoryId: curr, postId });
     return [...acc, promise]; 
   }, []);
+
   await Promise.all(postCategoriesPromises);
 };
 
