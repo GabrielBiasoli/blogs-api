@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const { joiError, domainError, serverError } = require('./middlewares');
 const User = require('./controllers/userController');
 const Category = require('./controllers/categoryController');
+const BlogPost = require('./controllers/blogPostController');
+const PostsCategory = require('./controllers/postCategoryController');
 const getToken = require('./controllers/signToken');
 const validateToken = require('./controllers/auth/validateToken');
 
@@ -23,6 +25,7 @@ app.get('/user', validateToken, User.getAll);
 app.get('/user/:id', validateToken, User.getById);
 app.post('/categories', validateToken, Category.create);
 app.get('/categories', validateToken, Category.getAll);
+app.post('/post', validateToken, BlogPost.create, PostsCategory.create);
 
 // Error middlewares
 app.use(joiError);

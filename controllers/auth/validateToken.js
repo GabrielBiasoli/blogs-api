@@ -22,9 +22,10 @@ module.exports = rescue(async (req, res, next) => {
 
     const user = await userService.getByEmail(email);
     if (!user) { throw Error; }
+    req.user = user;
   } catch (error) {
     return next(INVALID_TOKEN);
   }
-
+  
   return next();
 });
