@@ -28,8 +28,17 @@ const getAll = rescue(async (_req, res, _next) => {
   res.status(200).json(users);
 });
 
+const getById = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+
+  const user = await userService.getById(id);
+
+  res.status(200).json(user);
+});
+
 module.exports = {
   create,
   login,
   getAll,
+  getById,
 };

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
-const { User } = require('../../models');
+const userService = require('../../services/userService');
 
 const { JWT_SECRET } = process.env;
 
@@ -20,7 +20,7 @@ module.exports = rescue(async (req, res, next) => {
     const token = req.headers.authorization;
     const { email } = await jwt.verify(token, JWT_SECRET, jwtConfig);
 
-    const user = await User.findOne({ where: { email } });
+    const user = await userService.getByEmail(email);
     if (!user) { throw Error; }
   } catch (error) {
     return next(INVALID_TOKEN);

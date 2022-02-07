@@ -19,6 +19,7 @@ app.get('/', (request, response) => {
 app.post('/user', User.create, getToken);
 app.post('/login', User.login, getToken);
 app.get('/user', validateToken, User.getAll);
+app.get('/user/:id', validateToken, User.getById);
 
 // Error middlewares
 app.use(joiError);
