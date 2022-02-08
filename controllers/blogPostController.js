@@ -43,9 +43,12 @@ const update = rescue(async (req, res, _next) => {
   res.status(200).json(updatedPost);
 });
 
-// const remove = rescue(async (req, res, next) => {
-//   const 
-// })
+const remove = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  await blogPostService.getById(id);
+  await blogPostService.remove(id);
+  res.status(204).end();
+});
 
 module.exports = {
   create,
@@ -53,4 +56,5 @@ module.exports = {
   getById,
   authorizeUser,
   update,
+  remove,
 };

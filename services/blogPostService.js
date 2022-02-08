@@ -63,6 +63,10 @@ const update = async (newData) => {
   return newPost;
 };
 
+const remove = async (id) => {
+  await BlogPost.destroy({ where: { id } });
+};
+
 module.exports = {
   create,
   findLastOne,
@@ -70,4 +74,5 @@ module.exports = {
   getById,
   authorizeUser,
   update,
+  remove,
 };
