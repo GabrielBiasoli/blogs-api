@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, User, Category } = require('../models');
 
 const POST_DOES_NOT_EXIST = new Error('Post does not exist');
@@ -67,6 +68,27 @@ const remove = async (id) => {
   await BlogPost.destroy({ where: { id } });
 };
 
+const search = async (query) => {
+  // source: https://sequelize.org/master/manual/model-querying-basics.html#operators
+  const blogPosts = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+      { title: {
+        [Op.like]: `%${query}%`,
+      } },
+      { content: { 
+      [Op.like]: `%${query}%`, 
+      } },
+    ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ], 
+  });
+  return blogPosts;
+};
+
 module.exports = {
   create,
   findLastOne,
@@ -75,4 +97,5 @@ module.exports = {
   authorizeUser,
   update,
   remove,
+  search,
 };

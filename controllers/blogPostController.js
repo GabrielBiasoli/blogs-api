@@ -50,6 +50,12 @@ const remove = rescue(async (req, res, _next) => {
   res.status(204).end();
 });
 
+const search = rescue(async (req, res, _next) => {
+  const { q } = req.query;
+  const posts = await blogPostService.search(q);
+  res.status(200).json(posts);
+});
+
 module.exports = {
   create,
   getAll,
@@ -57,4 +63,5 @@ module.exports = {
   authorizeUser,
   update,
   remove,
+  search,
 };
