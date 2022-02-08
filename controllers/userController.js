@@ -36,9 +36,16 @@ const getById = rescue(async (req, res, _next) => {
   res.status(200).json(user);
 });
 
+const removeUser = rescue(async (req, res, _next) => {
+  const { id } = req.user;
+  await userService.removeUser(id);
+  res.status(204).end();
+});
+
 module.exports = {
   create,
   login,
   getAll,
   getById,
+  removeUser,
 };

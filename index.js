@@ -30,6 +30,7 @@ app.get('/post', validateToken, BlogPost.getAll);
 app.get('/post/:id', validateToken, BlogPost.getById);
 app.put('/post/:id', validateToken, BlogPost.authorizeUser, BlogPost.update);
 app.delete('/post/:id', validateToken, BlogPost.authorizeUser, BlogPost.remove);
+app.delete('/user/me', validateToken, User.removeUser);
 
 // Error middlewares
 app.use(joiError);
