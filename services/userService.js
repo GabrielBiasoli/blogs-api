@@ -35,7 +35,6 @@ const login = async (email, password) => {
 
 const getByEmail = async (email) => {
   const user = await User.findOne({ ...returnOptions, where: { email } });
-  console.log(user);
   return user;
 }; 
 

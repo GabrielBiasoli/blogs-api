@@ -3,6 +3,9 @@ const { BlogPost, User, Category } = require('../models');
 const POST_DOES_NOT_EXIST = new Error('Post does not exist');
 POST_DOES_NOT_EXIST.statusCode = 404;
 
+const UNAUTHORIZED_USER = new Error('Unauthorized user');
+UNAUTHORIZED_USER.statusCode = 401;
+
 const create = async ({ title, content, userId }) => {  
   const blogPost = {
     title,
@@ -40,9 +43,28 @@ const getById = async (id) => {
   return post;
 };
 
+const update = async (newData) => {
+  const { postId, userId, title, content } = newData;
+  const currPostData = await getById(postId);
+  if (currPostData.user.id !== userId) throw UNAUTHORIZED_USER;
+  console.log(currPostData);
+  await BlogPost.update(
+    { title, content, updated: new Date() },
+    { where: { id: postId } },
+  );
+  const newPost = await BlogPost.findByPk(postId, {
+    exclude: ['updated', 'published', 'id'],
+    include: [
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return newPost;
+};
+
 module.exports = {
   create,
   findLastOne,
   getAll,
   getById,
+  update,
 };

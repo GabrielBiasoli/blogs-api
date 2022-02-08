@@ -1,5 +1,6 @@
 const rescue = require('express-rescue');
 const blogPostScheema = require('./scheemas/blogPostScheema');
+const postUpdateScheema = require('./scheemas/postUpdateScheema');
 const validate = require('./utils/validate');
 const blogPostService = require('../services/blogPostService');
 
@@ -27,8 +28,17 @@ const getById = rescue(async (req, res, _next) => {
   res.status(200).json(post);
 });
 
+const update = rescue(async (req, res, _next) => {
+  validate(postUpdateScheema, req.body);
+  const { user, body, params } = req;
+  const { id } = params;
+  const updatedPost = await blogPostService.update({ userId: user.id, ...body, postId: id });
+  res.status(200).json(updatedPost);
+});
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
