@@ -28,17 +28,29 @@ const getById = rescue(async (req, res, _next) => {
   res.status(200).json(post);
 });
 
+const authorizeUser = rescue(async (req, res, next) => {
+  const { user: { id: userId }, params } = req;
+  const { id: postId } = params;
+  await blogPostService.authorizeUser({ userId, postId });
+  next();
+}); 
+
 const update = rescue(async (req, res, _next) => {
   validate(postUpdateScheema, req.body);
-  const { user, body, params } = req;
+  const { body, params } = req;
   const { id } = params;
-  const updatedPost = await blogPostService.update({ userId: user.id, ...body, postId: id });
+  const updatedPost = await blogPostService.update({ ...body, postId: id });
   res.status(200).json(updatedPost);
 });
+
+// const remove = rescue(async (req, res, next) => {
+//   const 
+// })
 
 module.exports = {
   create,
   getAll,
   getById,
+  authorizeUser,
   update,
 };

@@ -43,11 +43,13 @@ const getById = async (id) => {
   return post;
 };
 
-const update = async (newData) => {
-  const { postId, userId, title, content } = newData;
+const authorizeUser = async ({ userId, postId }) => {
   const currPostData = await getById(postId);
   if (currPostData.user.id !== userId) throw UNAUTHORIZED_USER;
-  console.log(currPostData);
+};
+
+const update = async (newData) => {
+  const { postId, title, content } = newData;
   await BlogPost.update(
     { title, content, updated: new Date() },
     { where: { id: postId } },
@@ -66,5 +68,6 @@ module.exports = {
   findLastOne,
   getAll,
   getById,
+  authorizeUser,
   update,
 };

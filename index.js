@@ -28,7 +28,7 @@ app.get('/categories', validateToken, Category.getAll);
 app.post('/post', validateToken, BlogPost.create, PostsCategory.create);
 app.get('/post', validateToken, BlogPost.getAll);
 app.get('/post/:id', validateToken, BlogPost.getById);
-app.put('/post/:id', validateToken, BlogPost.update);
+app.put('/post/:id', validateToken, BlogPost.authorizeUser, BlogPost.update);
 
 // Error middlewares
 app.use(joiError);
