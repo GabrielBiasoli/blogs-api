@@ -14,8 +14,7 @@ app.use(bodyParser.json());
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
-// não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (request, response) => {
+app.get('/', (_request, response) => {
   response.send();
 });
 
@@ -24,7 +23,7 @@ app.post('/login', User.login, getToken);
 app.get('/user', validateToken, User.getAll);
 app.get('/user/:id', validateToken, User.getById);
 app.post('/categories', validateToken, Category.create);
-app.get('/categories', validateToken, Category.getAll);
+app.get('/categories', validateToken, Category.getAll); 
 app.post('/post', validateToken, BlogPost.create, PostsCategory.create);
 app.get('/post', validateToken, BlogPost.getAll);
 app.get('/post/search', validateToken, BlogPost.search);
